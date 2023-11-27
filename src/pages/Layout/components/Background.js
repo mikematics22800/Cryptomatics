@@ -3,7 +3,7 @@ import { MonetizationOn } from "@mui/icons-material"
 
 const Background = () => {
   const [randoms, setRandoms] = useState([])
-  const [length, setLength] = useState(null)
+  const [length, setLength] = useState(window.innerWidth > 768 ? 100 : 50)
   
   const handleResize = () => {
     if (window.innerWidth > 768) {
@@ -24,7 +24,6 @@ const Background = () => {
       delay: Math.random() * 5 + 's'
     }));
     setRandoms(randoms)
-    console.log(length)
     return () => {
       window.removeEventListener('resize', handleResize);
     };
