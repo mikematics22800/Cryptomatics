@@ -3,9 +3,20 @@ import { MonetizationOn } from "@mui/icons-material"
 
 const Background = () => {
   const [randoms, setRandoms] = useState([])
+  const [length, setLength] = useState(null)
+  
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setLength(100)
+    } else {
+      setLength(50)
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
 
   useEffect(() => {
-    const randoms = Array.from({ length: 100 }, () => ({
+    const randoms = Array.from({length}, () => ({
       top: Math.floor(Math.random() * 100) + '%',
       left: Math.floor(Math.random() * 100) + '%',
       scale: Math.random() + 1,
@@ -13,10 +24,14 @@ const Background = () => {
       delay: Math.random() * 5 + 's'
     }));
     setRandoms(randoms)
-  }, [])
+    console.log(length)
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [length])
 
   return (
-    <div className='-z-10 fixed top-0 w-[1920px] h-screen pointer-events-none'>
+    <div className='-z-10 fixed top-0 w-screen h-screen pointer-events-none'>
       <div className='gradient'/>
         <div className='opacity-10'>
           {randoms.map((random, i) => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const headers = {
-  'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+  'X-RapidAPI-Key': "b838712149msh20436172aeaeb14p16cfa4jsn227b1dfecc4d",
   'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
 }
 
@@ -15,6 +15,7 @@ export const getCryptos = async (limit) => {
     return data
   } catch (error) {
     console.error(error);
+    console.log(process.env.REACT_APP_RAPID_API_KEY)
   }
 }
 
