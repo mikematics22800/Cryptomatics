@@ -1,1 +1,1 @@
-This is a React app that displays real time crypto stats and trends. You can view it at https://mikemedina22800.github.io/Cryptomatics/.
+ A React app that displays real time crypto stats and trends. Data is fetched from [Coinranking API](https://rapidapi.com/Coinranking/api/coinranking1). You can view the app [here](https://mikemedina22800.github.io/Cryptomatics/).
