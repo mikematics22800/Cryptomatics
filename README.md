@@ -1,1 +1,3 @@
- A fully responsive React app that displays real time crypto stats and trends. This app is stylized with Tailwind CSS and Material UI. Data is fetched using Axios from [Coinranking API](https://rapidapi.com/Coinranking/api/coinranking1). You can view this app [here](https://mikemedina22800.github.io/Cryptomatics/).
+ A fully responsive React app that displays real time crypto stats and trends. This app is stylized with Tailwind CSS and Material UI. Data is fetched using Axios from [Coinranking API](https://rapidapi.com/Coinranking/api/coinranking1).
+
+Now that you've got a rundown, install npm if you haven't already. After cloning this project to your local machine, unzip it and open it in either CMD if you're a Windows user, Terminal if you're a Mac or Linux user, or an IDE such as Visual Studio Code. Once you've done that, run 'npm i', then 'npm start'. Now you can view the app in your local browser. Enjoy!
