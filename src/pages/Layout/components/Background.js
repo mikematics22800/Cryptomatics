@@ -3,14 +3,16 @@ import { MonetizationOn } from "@mui/icons-material"
 
 const Background = () => {
   const [randoms, setRandoms] = useState([])
-  const [length, setLength] = useState(window.innerWidth > 768 ? 100 : 50)
+  const [length, setLength] = useState(window.innerWidth >= 960 ? 100 : 50)
   
   const handleResize = () => {
-    if (window.innerWidth > 768) {
-      setLength(100)
-    } else {
-      setLength(50)
-    }
+    setLength((prevLength) => {
+      if (window.innerWidth >= 960) {
+        return prevLength !== 100 ? 100 : prevLength;
+      } else {
+        return prevLength !== 50 ? 50 : prevLength;
+      }
+    });
   }
 
   window.addEventListener('resize', handleResize)
