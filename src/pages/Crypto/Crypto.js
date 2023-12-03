@@ -21,7 +21,7 @@ const Crypto = ({ simplified }) => {
   return (
     <div className='flex flex-col items-center w-screen'>
       {simplified ? (<h1 className="font-bold text-2xl">Top 10 Cryptocurrencies</h1>) : (
-        <div className="fixed w-full flex justify-center items-center z-10 mt-20 h-20 bg-blue-950">
+        <div className="fixed w-full flex justify-center items-center z-10 mt-20 h-16 bg-blue-950">
           <Paper className="flex rounded py-1 px-3 text-lg items-center w-64">
             <input className="w-full outline-none" placeholder="Search..." onChange={(e) => {setQuery(e.target.value)}}/>
             <Search sx={{color: "gray"}}/>

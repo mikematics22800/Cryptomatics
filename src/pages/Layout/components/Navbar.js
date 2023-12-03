@@ -27,7 +27,7 @@ const Navbar = () => {
         </IconButton>
       </div>
       {dropDown &&
-        <div onClick={() => {setDropDown(false)}}  className={`text-xl text-white font-bold fixed right-0 bg-blue-900 sm:hidden z-10 w-48 ${path == '/crypto' ? ('top-[10rem]') : ('top-20')}`}>
+        <div onClick={() => {setDropDown(false)}}  className={`text-xl text-white font-bold fixed right-0 bg-blue-900 sm:hidden z-10 w-48 ${path == '/crypto' ? ('top-36') : ('top-20')}`}>
           <Link to="/">
             <h1 className={`py-4 pl-4 ${path == '/' && 'text-[aqua]'} hover:!text-[aqua]`}>Home</h1>
           </Link>
