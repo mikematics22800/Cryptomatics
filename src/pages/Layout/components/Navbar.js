@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="flex justify-center">
         <img src={logo} className="w-16"/>
       </div>
-      <div className="hidden w-48 justify-between sm:flex">
+      <div className="hidden w-64 justify-between sm:flex">
         <Link to="/">
           <h1 className={`${path == '/' && 'text-[aqua]'} hover:text-[aqua]`}>Home</h1>
         </Link>
