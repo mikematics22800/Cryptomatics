@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Line } from 'react-chartjs-2'
 import { MenuItem, Select } from '@mui/material';
-import { getCryptoHistory } from '../../../../api/cryptoApi';
+import { getCryptoHistory } from '../../../api/cryptoApi';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 Chart.register( CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend );

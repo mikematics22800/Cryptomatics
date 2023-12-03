@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom"
 import millify from "millify"
-import { getCryptoDetails } from "../../../api/cryptoApi";
-import { Tag, Check, Close, ArrowCircleLeft }  from '@mui/icons-material';
+import { getCryptoDetails } from "../../api/cryptoApi";
+import { Tag, Check, Close}  from '@mui/icons-material';
 import LineChart from "./components/LineChart";
 import { CircularProgress, Paper } from "@mui/material";
 
-const CryptoId = () => {
+const CoinId = () => {
   const coinId = useParams().id
   const [details, setDetails] = useState(null)
 
@@ -33,16 +33,11 @@ const CryptoId = () => {
   ];
 
   return (
-    <div className="mt-24 w-screen flex flex-col items-center">
+    <div className="sm:mt-32 mt-24 w-screen flex flex-col items-center">
       {!details ? (
         <CircularProgress size='10rem' className="mt-20"/>
       ) : (
         <>
-          <div className="flex justify-start w-screen">
-            <Link to='/crypto' className="ml-5 p-0 my-0 sm:my-5 text-blue-950">
-              <ArrowCircleLeft className="!text-6xl rounded-full"/>
-            </Link>
-          </div>
           <div className="text-xl font-bold flex w-screen px-20 flex-col items-center mb-20 justify-between xl:flex-row">
             <img className="h-72 xl:hidden block" src={details?.iconUrl}/>
             <h1 className="!text-3xl text-blue-700 font-bold mb-10 xl:hidden text-center">{details?.name} ({details?.symbol})</h1>
@@ -74,4 +69,4 @@ const CryptoId = () => {
   )
 }
 
-export default CryptoId
+export default CoinId

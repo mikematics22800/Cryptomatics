@@ -1,17 +1,18 @@
+import { useState } from 'react';
 import  { Routes, Route, HashRouter } from 'react-router-dom';
 import Layout from './pages/Layout/Layout';
-import Home from './pages/Home';
-import Crypto from './pages/Crypto/Crypto';
-import CryptoId from './pages/Crypto/CryptoId/CryptoId';
+import Home from './pages/Home/Home';
+import CryptoId from './pages/CoinId/CoinId';
 
 const App = () => {
+  const [query, setQuery] = useState('')
+
   return (
     <HashRouter>
       <Routes>
-        <Route path='/' element={<Layout/>}>
-          <Route index element={<Home/>}/>
-          <Route path='/crypto' element={<Crypto/>}/>
-          <Route path='/crypto/coin/:id' element={<CryptoId/>}/>
+        <Route path='/' element={<Layout setQuery={setQuery}/>}>
+          <Route index element={<Home query={query}/>}/>
+          <Route path='/coin/:id' element={<CryptoId/>}/>
         </Route>
       </Routes>
     </HashRouter>

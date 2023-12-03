@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Background from "./components/Background"
 
-const Layout = () => {
+const Layout = ({setQuery}) => {
 return (
     <>
-      <Navbar/>
+      <Navbar setQuery={setQuery}/>
       <Background/>
       <Outlet/>
     </> 

@@ -5,11 +5,11 @@ const headers = {
   'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
 }
 
-export const getCryptos = async (limit) => {
+export const getCryptos = async () => {
   try {
     const { data: data } = await axios.request({
       method: 'GET',
-      url: `https://coinranking1.p.rapidapi.com/coins?limit=${limit}`,
+      url: `https://coinranking1.p.rapidapi.com/coins?limit=100`,
       headers: headers
     });
     return data

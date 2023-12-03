@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Cryptomatics/static/css/main.2cb9b874.css",
-    "main.js": "/Cryptomatics/static/js/main.1cd561ba.js",
+    "main.css": "/Cryptomatics/static/css/main.5d69331a.css",
+    "main.js": "/Cryptomatics/static/js/main.61f4464c.js",
     "static/media/logo.svg": "/Cryptomatics/static/media/logo.c44f7b282622623f2fa265746f3f3ad5.svg",
     "index.html": "/Cryptomatics/index.html",
-    "main.2cb9b874.css.map": "/Cryptomatics/static/css/main.2cb9b874.css.map",
-    "main.1cd561ba.js.map": "/Cryptomatics/static/js/main.1cd561ba.js.map"
+    "main.5d69331a.css.map": "/Cryptomatics/static/css/main.5d69331a.css.map",
+    "main.61f4464c.js.map": "/Cryptomatics/static/js/main.61f4464c.js.map"
   },
   "entrypoints": [
-    "static/css/main.2cb9b874.css",
-    "static/js/main.1cd561ba.js"
+    "static/css/main.5d69331a.css",
+    "static/js/main.61f4464c.js"
   ]
 }
