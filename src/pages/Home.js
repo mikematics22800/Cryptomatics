@@ -20,9 +20,9 @@ const Home = () => {
       <h1 className="text-4xl sm:text-6xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-amber-500 via-orange-600 to-yellow-500">CRYPTOMATICS</h1>
       <h2 className="text-2xl sm:text-4xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-cyan-500 to-blue-500 text-center">Get the latest crypto stats and trends in real time.</h2>
       {!globalStats ? (
-        <CircularProgress size='10rem' className="my-40"/>
+        <CircularProgress size='10rem' className="my-20"/>
       ) : (
-        <div className="flex flex-col items-center w-screen mt-5">
+        <div className="flex flex-col items-center w-screen my-10">
           <h1 className="text-2xl my-5">Global Stats</h1>
           <Paper className="flex flex-col justify-between sm:flex-row mb-10 p-10">
             <div>
