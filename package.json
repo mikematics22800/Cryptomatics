@@ -10,6 +10,7 @@
     "antd": "^5.8.2",
     "axios": "^1.5.0",
     "chart.js": "^4.3.2",
+    "eslint-config-react-app": "^7.0.1",
     "millify": "^6.1.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
