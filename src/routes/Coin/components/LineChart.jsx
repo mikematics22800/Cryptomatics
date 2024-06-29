@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { CoinContext } from '../Coin';
 import { Line } from 'react-chartjs-2'
 import { MenuItem, Select } from '@mui/material';
-import { getCryptoHistory } from '../../../api/cryptoApi';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 Chart.register( CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend );
 
-const LineChart = ({ coinId }) => {
+const LineChart = () => {
+  const { coinHistory, timePeriod, setTimePeriod } = useContext(CoinContext)
+
   const [change, setChange] = useState('')
   const [color, setColor] = useState('')
   const [plus, setPlus] = useState('')
   const [prices, setPrices] = useState([])
   const [timestamps, setTimestamps] = useState([])
-  const [timePeriod, setTimePeriod] = useState('7d')
 
   const timeFormatter = new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
@@ -21,30 +22,27 @@ const LineChart = ({ coinId }) => {
   });
 
   useEffect(() => {
-    getCryptoHistory({ coinId, timePeriod }).then((data) => {
-      setChange(data.data.change)
-      if (parseFloat(data.data.change) > 0) {
-        setColor('green')
-        setPlus(true)
+    setChange(coinHistory.change)
+    if (parseFloat(coinHistory.change) > 0) {
+      setColor('green')
+      setPlus(true)
+    } else {
+      setColor('red')
+      setPlus(false)
+    }
+    const prices = coinHistory.history.map((history) => history.price);
+    const timestamps = []
+    coinHistory.history.map((history) => {
+      const date = new Date(history.timestamp * 1000)
+      if (timePeriod.includes('h')) {
+        timestamps.push(timeFormatter.format(date))
       } else {
-        setColor('red')
-        setPlus(false)
+        timestamps.push(date.toLocaleDateString())
       }
-      const prices = data.data.history.map((history) => history.price);
-      const timestamps = []
-      data.data.history.map((history) => {
-        const date = new Date(history.timestamp * 1000)
-        console.log(date)
-        if (timePeriod.includes('h')) {
-          timestamps.push(timeFormatter.format(date))
-        } else {
-          timestamps.push(date.toLocaleDateString())
-        }
-      })
-      setTimestamps(timestamps.reverse());
-      setPrices(prices.reverse());
     })
-  }, [timePeriod])
+    setTimestamps(timestamps.reverse());
+    setPrices(prices.reverse());
+  }, [coinHistory])
 
   const data = {
     labels: timestamps,
@@ -66,8 +64,8 @@ const LineChart = ({ coinId }) => {
   };
 
   return (
-    <div className='w-screen px-5 sm:px-10 sm:mb-10 mb-5'>
-      <div className='w-full flex items-center justify-between mb-5'>
+    <div id="line-chart">
+      <div id='select'>
         <Select className='!h-10 bg-white' defaultValue={'7d'} size="small" onChange={(e) => setTimePeriod(e.target.value)}>
           <MenuItem value={'3h'}>3 Hours</MenuItem>
           <MenuItem value={'24h'}>1 Day</MenuItem>
@@ -77,9 +75,9 @@ const LineChart = ({ coinId }) => {
           <MenuItem value={'3y'}>3 Years</MenuItem>
           <MenuItem value={'5y'}>5 Years</MenuItem>
         </Select>
-        <h1 className='text-2xl font-bold' style={{color:color}}>{plus == true ? ('+') : ('')}{change}%</h1>
+        <h1 style={{color:color}}>{plus == true ? ('+') : ('')}{change}%</h1>
       </div>
-      <div className='sm:h-[32rem] h-[16rem]'>
+      <div className='sm:h-96 h-48'>
         <Line data={data} options={options}/>
       </div>
     </div>

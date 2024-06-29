@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const headers = {
-  'X-RapidAPI-Key': "b838712149msh20436172aeaeb14p16cfa4jsn227b1dfecc4d",
+  'X-RapidAPI-Key': import.meta.env.VITE_COINRANKING_API_KEY,
   'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
 }
 
-export const getCryptos = async () => {
+export const getCoins = async () => {
   try {
     const { data: data } = await axios.request({
       method: 'GET',
@@ -15,11 +15,10 @@ export const getCryptos = async () => {
     return data
   } catch (error) {
     console.error(error);
-    console.log(process.env.REACT_APP_RAPID_API_KEY)
   }
 }
 
-export const getCryptoDetails = async (coinId) => {
+export const getCoinDetails = async (coinId) => {
   try {
     const { data: data } = await axios.request({
       method: 'GET',
@@ -32,7 +31,7 @@ export const getCryptoDetails = async (coinId) => {
   }
 }
 
-export const getCryptoHistory = async ({coinId, timePeriod}) => {
+export const getCoinHistory = async ({coinId, timePeriod}) => {
   try {
     const { data: data } = await axios.request({
       method: 'GET',

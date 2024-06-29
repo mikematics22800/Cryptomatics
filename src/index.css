@@ -6,11 +6,25 @@
   display: none;
 }
 
-.gradient {
-  width:100%;
-  height:100%;
-  background-image: radial-gradient(skyblue, blue, midnightblue);
-  opacity: .1;
+#root {
+  @apply w-screen min-h-screen bg-center bg-cover bg-fixed relative
+}
+
+#error {
+  @apply w-screen h-[calc(100vh-6rem)] flex flex-col items-center justify-center gap-5
+}
+
+nav {
+  @apply flex h-24 justify-center items-center bg-blue-800 w-screen
+}
+
+#background {
+  background-image: radial-gradient(white, rgb(180, 180, 240));
+  @apply fixed top-0 w-screen h-screen pointer-events-none -z-50
+}
+
+#background div {
+  @apply text-blue-800 absolute opacity-0
 }
 
 @keyframes animate {
@@ -18,9 +32,97 @@
     opacity: 0;
   }
   5% {
-    opacity: 1;
+    opacity: .25;
   }
   100% {
     transform: translateY(-100vh);
   }
 }
+
+#searchbar {
+  @apply shadow-lg rounded-md sm:text-xl h-12 outline-none sm:w-96 w-72 bg-white flex justify-between items-center pr-4
+}
+
+input {
+  @apply outline-none w-full p-4 bg-transparent
+}
+
+#home {
+  @apply p-10 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-10
+}
+
+#hero {
+  @apply flex flex-col items-center gap-2
+}
+
+#title {
+  @apply flex items-center
+}
+
+#title img {
+  @apply md:w-40 w-20
+}
+
+#title h1 {
+  @apply md:text-6xl text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-amber-500 via-orange-600 to-yellow-500
+}
+
+#tagline {
+  @apply text-xl md:text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-cyan-500 to-blue-500 text-center
+}
+
+#market-stats {
+  @apply flex flex-col gap-5 py-10 w-60 px-10 lg:justify-between lg:flex-row lg:w-fit lg:px-20
+}
+
+#market-stats h1 {
+  @apply opacity-50 text-xs sm:text-sm
+}
+
+#market-stats h2 {
+  @apply  sm:text-2xl
+}
+
+#coins {
+  @apply w-full flex flex-wrap justify-center gap-5
+}
+
+#coin {
+  @apply w-screen min-h-[calc(100vh-6rem)] flex flex-col items-center p-10 gap-20
+}
+
+#coin-stats {
+  @apply text-xl font-bold flex w-screen flex-col items-center justify-between xl:flex-row px-20
+}
+
+#coin-stats .box {
+  @apply flex justify-between p-5 items-center w-80 sm:w-96 border-b-gray-400 border-b-2
+}
+
+#coin img {
+  @apply h-60
+}
+
+#coin header {
+  @apply flex-col items-center gap-2
+}
+
+#coin header h1 {
+  @apply text-3xl text-blue-700 font-bold mb-5 xl:m-0
+}
+
+#line-chart {
+  @apply w-screen px-5 sm:px-10 sm:mb-10 mb-5
+}
+
+#line-chart #select {
+  @apply w-full flex items-center justify-between mb-5
+}
+
+#line-chart #select h1 {
+  @apply text-2xl font-bold
+}
+
+
+
+

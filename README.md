@@ -1,1 +1,8 @@
-A fully responsive web application that displays real time data on cryptocurrencies with interactive and stylized visuals. This data includes the total number of cryptocurrencies, exchanges, and markets, along with the total market cap and 24 hour volume. Detailed information on the top 100 cryptocurrencies is provided, including their individual price, 24 hour volume, market cap, all time high, number of markets, total supply, circulating supply, whether or not it is an approved supply, and price fluctuation within the last 5 years.
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
