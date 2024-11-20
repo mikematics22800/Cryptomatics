@@ -7,7 +7,7 @@
 - [License](#license)
 
 ## Description
-A web client that displays real time data on the cryptocurrency exchange, including detailed information on the top 100 ranking coins in the market.
+A React app that displays real time data on the cryptocurrency exchange, including detailed information on the top 100 ranking coins in the market.
 
 [![](./public/screenshot.png)](https://mikematics22800.github.io/Cryptomatics)
 
