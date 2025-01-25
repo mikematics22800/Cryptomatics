@@ -34,7 +34,7 @@ const Home = () => {
                 <img src={logo}/>
                 <h1>CRYPTOMATICS</h1>
               </div>
-              <h1 id="tagline">Get the latest information on coin statistics and market trends in real time.</h1>
+              <h1 id="tagline">Maximize your returns with real time coin stats and market trends</h1>
             </div>
             <MarketStats/>
             <Coins/>
