@@ -26,7 +26,9 @@ const Home = () => {
     <CoinsContext.Provider value={value}>
       <div id="home">
         {!marketStats || !coins ? (
-          <CircularProgress size='10rem'/>
+          <div className="fixed top-0 w-screen h-screen flex justify-center items-center">
+            <CircularProgress size='10rem'/>
+          </div>
         ) : (
           <>
             <div id="hero">
@@ -34,7 +36,7 @@ const Home = () => {
                 <img src={logo}/>
                 <h1>CRYPTOMATICS</h1>
               </div>
-              <h1 id="tagline">Maximize your returns with real time coin stats and market trends!</h1>
+              <h1 id="tagline">Maximize your returns with real time statistics and market trends!</h1>
             </div>
             <MarketStats/>
             <Coins/>
