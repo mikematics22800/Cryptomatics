@@ -15,21 +15,21 @@ const Coins = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <LocalAtm className="mr-1"/>
-              <h1 className="font-bold">Price:</h1>
+              <h1 className="font-bold">Price</h1>
             </div>
             ${millify(coin.price)}
           </div>
           <div className="flex items-center justify-between my-2">
             <div className="flex items-center">
               <ShowChart className="mr-1"/>
-              <h1 className="font-bold">Market Cap:</h1>
+              <h1 className="font-bold">Market Cap</h1>
             </div>
             ${millify(coin.marketCap)}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <AccessTime className="mr-1"/>
-              <h1 className="font-bold">Daily Cap:</h1>
+              <h1 className="font-bold">Daily Cap</h1>
             </div> 
             {millify(coin.change)}%
           </div>

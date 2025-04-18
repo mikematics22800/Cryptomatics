@@ -48,7 +48,7 @@ const LineChart = () => {
     labels: timestamps,
     datasets: [
       {
-        label: 'Price In USD', 
+        label: 'Price (USD)', 
         data: prices, 
         backgroundColor: 'blue',
         borderColor: 'blue',

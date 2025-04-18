@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { RootContext } from "../Root/Root"
 import { getCoins } from "../../libs/api"
 import { CircularProgress } from "@mui/material"
-import logo from "./images/logo.svg"
 import MarketStats from "./components/MarketStats"
 import Coins from "./components/Coins"
 
@@ -31,13 +30,6 @@ const Home = () => {
           </div>
         ) : (
           <>
-            <div id="hero">
-              <div id="title">
-                <img src={logo}/>
-                <h1>CRYPTOMATICS</h1>
-              </div>
-              <h1 id="tagline">Maximize your returns with real time statistics and market trends!</h1>
-            </div>
             <MarketStats/>
             <Coins/>
           </> 

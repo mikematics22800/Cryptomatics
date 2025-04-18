@@ -15,7 +15,7 @@
 }
 
 nav {
-  @apply flex h-24 justify-center items-center bg-blue-800 w-screen
+  @apply flex h-20 lg:gap-40 justify-between lg:justify-center items-center bg-blue-950 w-screen px-5
 }
 
 #background {
@@ -60,11 +60,11 @@ input {
 }
 
 #title img {
-  @apply md:w-40 w-20
+  @apply w-10
 }
 
 #title h1 {
-  @apply md:text-6xl text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-amber-500 via-orange-600 to-yellow-500
+  @apply text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-[orange] via-[gold] to-[orange]
 }
 
 #tagline {
@@ -72,47 +72,47 @@ input {
 }
 
 #market-stats {
-  @apply flex flex-col gap-5 py-10 w-60 px-10 lg:justify-between lg:flex-row lg:w-fit lg:px-20
+  @apply flex gap-5 p-10 max-w-full w-[1000px] justify-between flex-wrap
 }
 
 #market-stats h1 {
-  @apply opacity-50 text-xs sm:text-sm
+  @apply text-xs sm:text-sm
 }
 
 #market-stats h2 {
-  @apply  sm:text-2xl
+  @apply sm:text-2xl
 }
 
 #coins {
   @apply w-full flex flex-wrap justify-center gap-5
 }
 
-#coin {
-  @apply w-screen min-h-[calc(100vh-6rem)] flex flex-col items-center p-10 gap-20
+.coin {
+  @apply flex sm:flex-row flex-col justify-between w-screen p-10 gap-10
 }
 
-#coin-stats {
-  @apply text-xl font-bold flex w-screen flex-col items-center justify-between xl:flex-row px-20
+.coin-stats {
+  @apply text-sm flex flex-col pt-4 w-96 items-center font-bold
 }
 
-#coin-stats .box {
-  @apply flex justify-between p-5 items-center w-80 sm:w-96 border-b-gray-400 border-b-2
+.coin-stat {
+  @apply flex justify-between w-96 p-4 border-t-black border-t-2
 }
 
-#coin img {
-  @apply h-60
+.coin img {
+  @apply w-20
 }
 
-#coin header {
+.coin header {
   @apply flex-col items-center gap-2
 }
 
-#coin header h1 {
+.coin header h1 {
   @apply text-3xl text-blue-700 font-bold mb-5 xl:m-0
 }
 
 #line-chart {
-  @apply w-screen px-5 sm:px-10 sm:mb-10 mb-5
+  @apply px-5 w-full
 }
 
 #line-chart #select {
