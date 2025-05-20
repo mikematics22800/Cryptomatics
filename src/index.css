@@ -11,16 +11,16 @@
 }
 
 #error {
-  @apply w-screen h-[calc(100vh-6rem)] flex flex-col items-center justify-center gap-5
+  @apply w-screen h-[calc(100vh-6rem)] flex flex-col items-center justify-center gap-4
 }
 
 nav {
-  @apply flex h-20 lg:gap-40 justify-between lg:justify-center items-center bg-blue-950 w-screen px-5
+  @apply flex h-20 gap-40 justify-center items-center bg-blue-950 w-screen sm:px-8 px-4 fixed top-0 z-40
 }
 
 #background {
   background-image: radial-gradient(white, rgb(180, 180, 240));
-  @apply fixed top-0 w-screen h-screen pointer-events-none -z-50
+  @apply fixed top-0 w-screen h-screen pointer-events-none -z-40
 }
 
 #background div {
@@ -35,7 +35,7 @@ nav {
     opacity: .25;
   }
   100% {
-    transform: translateY(-100vh);
+    transform: translateY(-80vh);
   }
 }
 
@@ -48,7 +48,7 @@ input {
 }
 
 #home {
-  @apply p-10 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-10
+  @apply p-8 mt-20 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-8
 }
 
 #hero {
@@ -56,72 +56,62 @@ input {
 }
 
 #title {
-  @apply flex items-center
+  @apply items-center hidden lg:flex
 }
 
 #title img {
-  @apply w-10
+  @apply w-8
 }
 
 #title h1 {
   @apply text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-[orange] via-[gold] to-[orange]
 }
 
-#tagline {
-  @apply text-xl md:text-3xl font-black bg-gradient-to-r p-2 text-transparent bg-clip-text from-cyan-500 to-blue-500 text-center
-}
-
 #market-stats {
-  @apply flex gap-5 p-10 max-w-full w-[1000px] justify-between flex-wrap
+  @apply flex gap-4 p-8 max-w-full w-64 sm:w-[48rem] justify-between text-center bg-gray-800 text-white rounded-xl sm:flex-row flex-col
 }
 
 #market-stats h1 {
-  @apply text-xs sm:text-sm
+  @apply text-sm
 }
 
 #market-stats h2 {
-  @apply sm:text-2xl
+  @apply text-lg
 }
 
 #coins {
-  @apply w-full flex flex-wrap justify-center gap-5
+  @apply w-full flex flex-wrap justify-center gap-4
 }
 
-.coin {
-  @apply flex sm:flex-row flex-col justify-between w-screen p-10 gap-10
+#coin {
+  @apply flex lg:flex-row flex-col gap-10 lg:gap-40 justify-center w-screen p-8 mt-20 lg:mt-40 items-center
 }
 
 .coin-stats {
-  @apply text-sm flex flex-col pt-4 w-96 items-center font-bold
+  @apply text-sm flex flex-col pt-4 w-96 max-w-full items-center font-bold !rounded-xl
 }
 
 .coin-stat {
-  @apply flex justify-between w-96 p-4 border-t-black border-t-2
+  @apply flex justify-between w-full py-2 px-4 border-t-black border-t-2
 }
 
-.coin img {
-  @apply w-20
+#coin img {
+  @apply w-10
 }
 
-.coin header {
+#coin header {
   @apply flex-col items-center gap-2
 }
 
-.coin header h1 {
-  @apply text-3xl text-blue-700 font-bold mb-5 xl:m-0
-}
-
 #line-chart {
-  @apply px-5 w-full
+  @apply w-[48rem] max-w-full
 }
 
 #line-chart #select {
-  @apply w-full flex items-center justify-between mb-5
+  @apply w-full flex items-center justify-between mb-4
 }
 
-#line-chart #select h1 {
-  @apply text-2xl font-bold
-}
+
 
 
 

@@ -49,10 +49,10 @@ const Coin = () => {
           <CircularProgress size='10rem'/>
         </div>
       ) : (
-        <div className="coin">
+        <div id="coin">
           <Paper className="coin-stats">
             <img src={coinDetails?.iconUrl}/>
-            <h1 className="text-xl mb-4 mt-2">{coinDetails?.name} {coinDetails?.symbol}</h1>
+            <h1 className="text-lg mb-4 mt-2">{coinDetails?.name} {coinDetails?.symbol}</h1>
             {stats.map(({ title, value }) => (
               <div className="coin-stat">
                 <h1>{title}</h1>

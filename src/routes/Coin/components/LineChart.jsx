@@ -75,9 +75,9 @@ const LineChart = () => {
           <MenuItem value={'3y'}>3 Years</MenuItem>
           <MenuItem value={'5y'}>5 Years</MenuItem>
         </Select>
-        <h1 style={{color:color}}>{plus == true ? ('+') : ('')}{change}%</h1>
+        <h1 className='text-lg font-bold' style={{color:color}}>{plus == true ? ('+') : ('')}{change}%</h1>
       </div>
-      <div className='sm:h-96 h-48'>
+      <div className='lg:h-96 md:h-80 sm:h-64'>
         <Line data={data} options={options}/>
       </div>
     </div>

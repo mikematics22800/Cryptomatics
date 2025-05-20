@@ -17,7 +17,7 @@ const Root = () => {
         <nav>
           <div id="title">
             <img src={logo}/>
-            <h1 className="hidden lg:block">CRYPTOMATICS</h1>
+            <h1>CRYPTOMATICS</h1>
           </div>
           <Link to="/" className="cursor-default">
             <div id="searchbar">

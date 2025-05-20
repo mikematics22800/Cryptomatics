@@ -11,7 +11,7 @@ const Coins = () => {
     <div id="coins">
     {coins?.map((coin) => (
       <Link key={coin.uuid} to={`/${coin.uuid}`}>
-        <Card className="w-60" title={`${coin.rank}. ${coin.name}`} extra={<img className="w-10 h-10" src={coin.iconUrl}/>} hoverable>
+        <Card className="w-64" title={`${coin.rank}. ${coin.name}`} extra={<img className="w-10 h-10" src={coin.iconUrl}/>} hoverable>
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <LocalAtm className="mr-1"/>
