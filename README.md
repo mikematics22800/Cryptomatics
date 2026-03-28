@@ -24,7 +24,7 @@ cd Cryptomatics
 # Install dependencies
 npm i
 # Create a .env file and add your API key
-echo VITE_COIN_RANKING_API_KEY="$key" > .env
+echo VITE_COINRANKING_API_KEY="$key" > .env
 # Start the development server
 npm run dev
 ```

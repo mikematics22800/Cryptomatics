@@ -66,7 +66,7 @@ const LineChart = () => {
   return (
     <div id="line-chart">
       <div id='select'>
-        <Select className='!h-10 bg-white' defaultValue={'7d'} size="small" onChange={(e) => setTimePeriod(e.target.value)}>
+        <Select className='!h-10 bg-white !font-bold' defaultValue={'7d'} size="small" onChange={(e) => setTimePeriod(e.target.value)}>
           <MenuItem value={'3h'}>3 Hours</MenuItem>
           <MenuItem value={'24h'}>1 Day</MenuItem>
           <MenuItem value={'7d'}>1 Week</MenuItem>
@@ -77,7 +77,7 @@ const LineChart = () => {
         </Select>
         <h1 className='text-lg font-bold' style={{color:color}}>{plus == true ? ('+') : ('')}{change}%</h1>
       </div>
-      <div className='lg:h-96 md:h-80 sm:h-64'>
+      <div className="h-72 sm:h-80 md:h-96 lg:h-[28rem] xl:h-[32rem] min-h-[16rem]">
         <Line data={data} options={options}/>
       </div>
     </div>

@@ -1,27 +1,58 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from './routes/Root/Root.jsx';
-import Home from './routes/Home/Home.jsx';
-import Coin from './routes/Coin/Coin.jsx';
+import './styles/index.css'
+import { ThemeProvider, CssBaseline } from '@mui/material'
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
+import { appTheme } from './styles/muiTheme.js'
+import Root from "./layouts/RootLayout.jsx"
+import PublicAuthLayout from "./layouts/PublicAuthLayout.jsx"
+import Home from "./pages/Home/Home.jsx"
+import Coin from "./pages/Coin/Coin.jsx"
+import { AuthProvider } from "./auth/AuthProvider.jsx"
+import { RequireAuth } from "./auth/RequireAuth.jsx"
+import { GuestOnly } from "./auth/GuestOnly.jsx"
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <Root/>,
+      element: <Outlet />,
       children: [
         {
-          path: "/",
-          element: <Home/>,
+          path: "login",
+          element: (
+            <GuestOnly>
+              <PublicAuthLayout />
+            </GuestOnly>
+          ),
         },
         {
-          path: "/:id",
-          element: <Coin/>,
+          path: "register",
+          element: (
+            <GuestOnly>
+              <PublicAuthLayout />
+            </GuestOnly>
+          ),
         },
-      ]
-    }
+        {
+          element: (
+            <RequireAuth>
+              <Root />
+            </RequireAuth>
+          ),
+          children: [
+            {
+              index: true,
+              element: <Home />,
+            },
+            {
+              path: ":id",
+              element: <Coin />,
+            },
+          ],
+        },
+      ],
+    },
   ], 
   { 
     basename: "/Cryptomatics/" 
@@ -30,6 +61,11 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />  
+    <ThemeProvider theme={appTheme}>
+      <CssBaseline />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>,
 )

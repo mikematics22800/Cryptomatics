@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-sans antialiased;
+  }
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  @apply w-screen min-h-screen bg-center bg-cover bg-fixed relative
+}
+
+#error {
+  @apply w-screen h-[calc(100vh-6rem)] flex flex-col items-center justify-center gap-4
+}
+
+nav {
+  @apply flex h-20 gap-40 justify-center items-center bg-blue-950 w-screen sm:px-8 px-4 fixed top-0 z-40
+}
+
+#background {
+  background-image: radial-gradient(white, rgb(180, 180, 240));
+  @apply fixed top-0 w-screen h-screen pointer-events-none -z-40
+}
+
+#background div {
+  @apply text-blue-800 absolute opacity-0
+}
+
+@keyframes animate {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: .25;
+  }
+  100% {
+    transform: translateY(-80vh);
+  }
+}
+
+#searchbar {
+  @apply shadow-lg rounded-md sm:text-xl h-12 outline-none sm:w-96 w-72 bg-white flex justify-between items-center pr-4
+}
+
+input {
+  @apply outline-none w-full p-4 bg-transparent
+}
+
+#home {
+  @apply p-8 mt-20 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-8
+}
+
+#hero {
+  @apply flex flex-col items-center gap-2
+}
+
+#title {
+  @apply items-center hidden md:flex;
+}
+
+#title img {
+  @apply w-8 shrink-0;
+}
+
+#title h1 {
+  @apply p-2;
+}
+
+/* Wordmark: plain h1/p only — MUI Typography overrides these if used there */
+/* Shared wordmark: nav + auth (Plus Jakarta 800; body UI stays Space Grotesk) */
+.cryptomatics-wordmark {
+  margin: 0;
+  padding: 0;
+  font-family: "Plus Jakarta Sans", "Space Grotesk", ui-sans-serif, system-ui,
+    sans-serif !important;
+  font-weight: 800 !important;
+  line-height: 1.02;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem) !important;
+  text-rendering: geometricPrecision;
+  background: linear-gradient(
+    118deg,
+    #fb923c 0%,
+    #fde68a 22%,
+    #fff7d6 38%,
+    #fbbf24 52%,
+    #f59e0b 78%,
+    #c2410c 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
+}
+
+#title .cryptomatics-wordmark {
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem) !important;
+  letter-spacing: 0.16em;
+}
+
+.auth-brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .auth-brand-lockup {
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+}
+
+.auth-brand-logo {
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.32));
+}
+
+/* Width matches four Ant Cards (w-64) + gap-4 between them */
+#market-stats.market-stats-panel {
+  @apply w-full max-w-full mx-auto box-border text-slate-50;
+  @apply flex flex-col gap-4 p-4 sm:gap-5 sm:p-6;
+  @apply rounded-2xl border border-white/10;
+  @apply shadow-[0_12px_40px_rgba(0,0,0,0.25)];
+  max-width: min(100%, 67rem);
+  background-image: linear-gradient(
+    155deg,
+    rgb(30, 41, 59) 0%,
+    rgb(22, 30, 46) 45%,
+    rgb(15, 23, 42) 100%
+  );
+}
+
+.market-stats-header {
+  @apply text-center sm:text-left border-b border-white/[0.08] pb-4 -mx-1 px-1;
+}
+
+.market-stats-heading {
+  @apply m-0 text-lg sm:text-xl font-bold text-slate-100 tracking-tight;
+}
+
+.market-stats-lede {
+  @apply m-0 mt-1.5 text-[0.65rem] sm:text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500;
+}
+
+.market-stats-grid {
+  @apply grid grid-cols-2 gap-2.5 sm:gap-3;
+}
+
+@media (min-width: 640px) {
+  .market-stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.25rem), 1fr));
+  }
+}
+
+.market-stat-tile {
+  @apply flex flex-col items-center justify-center text-center gap-2 rounded-xl px-2 py-4 sm:px-3 sm:py-5 min-h-[118px] min-w-0;
+  @apply bg-white/[0.05] border border-white/[0.1];
+  @apply transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out;
+  @apply hover:bg-white/[0.08] hover:border-amber-400/30 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(0,0,0,0.22)];
+}
+
+.market-stat-tile-icon-wrap {
+  @apply flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl;
+  @apply bg-amber-400/[0.12] border border-amber-400/25;
+}
+
+.market-stat-tile-icon {
+  @apply shrink-0 text-amber-300 !text-[1.35rem] sm:!text-[1.45rem];
+}
+
+.market-stat-tile-label {
+  @apply block leading-tight text-slate-400 font-semibold tracking-[0.1em] uppercase px-1;
+  @apply text-[0.62rem] sm:text-[0.68rem];
+}
+
+.market-stat-tile-value {
+  @apply m-0 max-w-full w-full font-bold tabular-nums text-slate-50 text-center;
+  @apply text-[0.95rem] sm:text-lg leading-snug break-words [overflow-wrap:anywhere];
+}
+
+#coins {
+  @apply w-full flex flex-wrap justify-center gap-4
+}
+
+#coin {
+  @apply flex lg:flex-row flex-col gap-10 lg:gap-40 justify-center w-screen p-8 mt-20 lg:mt-40 items-center
+}
+
+.coin-stats {
+  @apply text-sm flex flex-col pt-4 w-96 max-w-full items-center font-bold !rounded-xl
+}
+
+.coin-stat {
+  @apply flex justify-between w-full py-2 px-4 border-t-black border-t-2
+}
+
+#coin img {
+  @apply w-10
+}
+
+#coin header {
+  @apply flex-col items-center gap-2
+}
+
+#line-chart {
+  @apply w-full max-w-[min(100%,90rem)]
+}
+
+#line-chart #select {
+  @apply w-full flex items-center justify-between mb-4
+}
+
+#auth {
+  @apply mt-20 min-h-[calc(100vh-6rem)] w-full flex items-center justify-center px-4 py-10;
+}
+
+.auth-card {
+  @apply w-full max-w-md rounded-2xl border border-white/10 p-6 sm:p-8 shadow-[0_12px_40px_rgba(0,0,0,0.25)];
+  background-image: linear-gradient(
+    155deg,
+    rgb(30, 41, 59) 0%,
+    rgb(22, 30, 46) 45%,
+    rgb(15, 23, 42) 100%
+  );
+}
+
+
+
+
+
+
