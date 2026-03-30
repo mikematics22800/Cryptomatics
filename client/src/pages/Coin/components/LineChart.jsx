@@ -1,7 +1,8 @@
 import { useMemo, useContext } from "react"
 import { CoinContext } from "../Coin"
 import { Line } from "react-chartjs-2"
-import { MenuItem, Select } from "@mui/material"
+import { Box, MenuItem, Select, Typography } from "@mui/material"
+import { useTheme } from "@mui/material/styles"
 import {
   Chart,
   CategoryScale,
@@ -30,6 +31,7 @@ const timeFormatter = new Intl.DateTimeFormat("en-US", {
 })
 
 const LineChart = () => {
+  const theme = useTheme()
   const { coinHistory, timePeriod, setTimePeriod, currency, usdPerEur } =
     useContext(CoinContext)
 
@@ -44,7 +46,9 @@ const LineChart = () => {
           timestamps: [],
           prices: [],
           changeStr,
-          changeColor: isPositive ? "green" : "red",
+          changeColor: isPositive
+            ? theme.palette.success.main
+            : theme.palette.error.main,
           showPlus: isPositive,
         }
       }
@@ -63,10 +67,14 @@ const LineChart = () => {
         timestamps: [...ts].reverse(),
         prices: [...display].reverse(),
         changeStr,
-        changeColor: isPositive ? "green" : "red",
+        changeColor: isPositive
+          ? theme.palette.success.main
+          : theme.palette.error.main,
         showPlus: isPositive,
       }
-    }, [coinHistory, currency, usdPerEur, timePeriod])
+    }, [coinHistory, currency, usdPerEur, timePeriod, theme])
+
+  const lineColor = theme.palette.primary.main
 
   const data = {
     labels: timestamps,
@@ -74,10 +82,16 @@ const LineChart = () => {
       {
         label: currency === "EUR" ? "Price (EUR)" : "Price (USD)",
         data: prices,
-        backgroundColor: "blue",
-        borderColor: "blue",
-        pointBackgroundColor: "blue",
-        color: "white",
+        backgroundColor: lineColor,
+        borderColor: lineColor,
+        pointBackgroundColor: lineColor,
+        pointBorderColor: "#fff",
+        pointBorderWidth: 1,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        tension: 0.25,
+        borderWidth: 2,
+        fill: false,
       },
     ],
   }
@@ -88,13 +102,27 @@ const LineChart = () => {
   }
 
   return (
-    <div id="line-chart">
-      <div id="select">
+    <Box id="line-chart" sx={{ width: "100%", minWidth: 0 }}>
+      <Box
+        id="select"
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          mb: 2.5,
+        }}
+      >
         <Select
-          className="!h-10 bg-white !font-bold"
           value={timePeriod}
           size="small"
           onChange={(e) => setTimePeriod(e.target.value)}
+          sx={{
+            minWidth: 140,
+            fontWeight: 600,
+            bgcolor: "background.paper",
+          }}
         >
           <MenuItem value="3h">3 Hours</MenuItem>
           <MenuItem value="24h">1 Day</MenuItem>
@@ -104,15 +132,27 @@ const LineChart = () => {
           <MenuItem value="3y">3 Years</MenuItem>
           <MenuItem value="5y">5 Years</MenuItem>
         </Select>
-        <h1 className="text-lg font-bold" style={{ color: changeColor }}>
-          {showPlus ? "+" : ""}
-          {changeStr}%
-        </h1>
-      </div>
-      <div className="h-72 sm:h-80 md:h-96 lg:h-[28rem] xl:h-[32rem] min-h-[16rem]">
+        <Box sx={{ textAlign: { xs: "left", sm: "right" } }}>
+          <Typography
+            component="p"
+            variant="h6"
+            sx={{ fontWeight: 700, color: changeColor, m: 0, lineHeight: 1.2 }}
+          >
+            {showPlus ? "+" : ""}
+            {changeStr}%
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          height: { xs: 260, sm: 300, md: 360, lg: 400, xl: 440 },
+          minHeight: 220,
+          position: "relative",
+        }}
+      >
         <Line data={data} options={options} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

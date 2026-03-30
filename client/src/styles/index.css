@@ -61,7 +61,7 @@ input {
 }
 
 #home {
-  @apply p-8 mt-20 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-8
+  @apply p-8 font-bold flex flex-col overflow-x-hidden items-center w-screen min-h-[calc(100vh-6rem)] gap-8
 }
 
 #hero {
@@ -135,32 +135,21 @@ nav .nav-wordmark {
   @apply w-full flex flex-wrap justify-center gap-4
 }
 
-#coin {
-  @apply flex lg:flex-row flex-col gap-10 lg:gap-40 justify-center w-screen p-20 mt-20 lg:mt-40 items-center
+/* Currencies page: ant Card — persistent shadow + lift on hover (see Coins.jsx `.coins-catalog`) */
+.coins-catalog .coin-catalog-card.ant-card {
+  box-shadow:
+    0 8px 24px -6px rgba(15, 23, 42, 0.2),
+    0 4px 12px -4px rgba(15, 23, 42, 0.12);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.coin-stats {
-  @apply text-sm flex flex-col pt-4 w-96 max-w-full items-center font-bold !rounded-xl
-}
-
-.coin-stat {
-  @apply flex justify-between w-full py-2 px-4 border-t-black border-t-2
-}
-
-#coin img {
-  @apply w-10
-}
-
-#coin header {
-  @apply flex-col items-center gap-2
-}
-
-#line-chart {
-  @apply w-full max-w-[min(100%,90rem)]
-}
-
-#line-chart #select {
-  @apply w-full flex items-center justify-between mb-4
+.coins-catalog .coin-catalog-card.ant-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 36px -8px rgba(15, 23, 42, 0.28),
+    0 8px 16px -6px rgba(15, 23, 42, 0.18);
 }
 
 #auth {

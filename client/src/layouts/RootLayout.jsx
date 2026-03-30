@@ -68,7 +68,9 @@ export default function Root() {
         </div>
       </nav>
       <Background />
-      <Outlet />
+      <main className="w-full pt-24">
+        <Outlet />
+      </main>
     </div>
   )
 }

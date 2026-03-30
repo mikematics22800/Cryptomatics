@@ -17,6 +17,7 @@ import {
 } from "@mui/material"
 import {
   loginWithEmail,
+  provisionNewUserAccounts,
   signInWithGoogle,
 } from "../../../utils/supabase.js"
 import {
@@ -55,7 +56,7 @@ const Login = ({ onSwitchToRegister }) => {
       return
     }
     setLoading(true)
-    const { error: signInError } = await loginWithEmail(
+    const { data, error: signInError } = await loginWithEmail(
       email.trim(),
       password
     )
@@ -64,6 +65,20 @@ const Login = ({ onSwitchToRegister }) => {
       setError(signInError.message)
       return
     }
+
+    const session = data?.session
+    const signedInUser = data?.user ?? session?.user
+    if (session && signedInUser?.id) {
+      const { error: provisionError } = await provisionNewUserAccounts(
+        signedInUser.id,
+        signedInUser.email,
+        session
+      )
+      if (provisionError) {
+        console.error(provisionError)
+      }
+    }
+
     setLoading(false)
     navigate(resolvePostAuthPath(location.state?.from), { replace: true })
   }

@@ -11,8 +11,16 @@ const Coins = () => {
   return (
     <div id="coins">
     {coins?.map((coin) => (
-      <Link key={coin.uuid} to={`/currencies/${coin.uuid}`}>
-        <Card className="w-64" title={`${coin.rank}. ${coin.name}`} extra={<img className="w-10 h-10" src={coin.iconUrl}/>} hoverable>
+      <Link
+        key={coin.uuid}
+        to={`/currencies/${coin.uuid}`}
+        className="block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400/60"
+      >
+        <Card
+          className="coin-catalog-card w-64"
+          title={`${coin.rank}. ${coin.name}`}
+          extra={<img className="h-10 w-10" src={coin.iconUrl} alt="" />}
+        >
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <LocalAtm className="mr-1"/>

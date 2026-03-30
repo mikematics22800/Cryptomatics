@@ -22,6 +22,7 @@ import {
   Typography,
 } from "@mui/material"
 import {
+  provisionNewUserAccounts,
   registerWithEmail,
   signInWithGoogle,
 } from "../../../utils/supabase.js"
@@ -88,6 +89,18 @@ const Register = ({ onSwitchToLogin }) => {
     }
 
     if (emailConfirmed) {
+      const session = data.session
+      const rowUser = data.user ?? session?.user
+      if (session && rowUser?.id) {
+        const { error: provisionError } = await provisionNewUserAccounts(
+          rowUser.id,
+          rowUser.email,
+          session
+        )
+        if (provisionError) {
+          console.error(provisionError)
+        }
+      }
       navigate(resolvePostAuthPath(location.state?.from), { replace: true })
       return
     }

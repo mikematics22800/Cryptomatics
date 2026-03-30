@@ -111,7 +111,7 @@ const CoinsPage = () => {
               <div id="searchbar">
                 <input
                   type="search"
-                  placeholder="Enter currency"
+                  placeholder="Search..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   aria-label="Search coins"
@@ -124,12 +124,13 @@ const CoinsPage = () => {
                 value={fiat.currency}
                 onChange={(_, v) => v && fiat.setCurrency(v)}
                 aria-label="Display currency"
+                sx={{backgroundColor: "white"}}
               >
                 <ToggleButton value="USD">USD</ToggleButton>
                 <ToggleButton value="EUR">EUR</ToggleButton>
               </ToggleButtonGroup>
             </div>
-            <div ref={coinsWrapRef} className="w-full">
+            <div ref={coinsWrapRef} className="coins-catalog w-full">
               <Coins />
             </div>
           </>

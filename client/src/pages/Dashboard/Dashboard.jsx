@@ -737,7 +737,7 @@ export default function Dashboard() {
     return (
       <div
         id="dashboard"
-        className="p-8 mt-20 w-screen min-h-[calc(100vh-6rem)] flex justify-center items-center"
+        className="p-8 w-screen min-h-[calc(100vh-6rem)] flex justify-center items-center"
       >
         <CircularProgress size="4rem" sx={{ color: "rgba(251,191,36,0.9)" }} />
       </div>
@@ -753,7 +753,7 @@ export default function Dashboard() {
   return (
     <div
       id="dashboard"
-      className="p-8 mt-20 w-screen min-h-[calc(100vh-6rem)] flex flex-col items-center gap-8 max-w-5xl mx-auto"
+      className="p-8 w-screen min-h-[calc(100vh-6rem)] flex flex-col items-center gap-8 max-w-5xl mx-auto"
     >
       {error ? (
         <Typography color="error" role="alert">
@@ -974,9 +974,9 @@ export default function Dashboard() {
           />
           <Button
             type="submit"
-            variant="outlined"
+            variant="contained"
             disabled={lookupLoading}
-            sx={{ py: 1.25, fontWeight: 700, mt: 0.5 }}
+            sx={{ py: 1.25, fontWeight: 700 }}
           >
             {lookupLoading ? "Searching…" : "Find user"}
           </Button>

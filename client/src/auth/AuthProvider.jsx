@@ -11,6 +11,7 @@ import {
   logout,
   onAuthStateChange,
   provisionNewUserAccounts,
+  supabase,
 } from "../utils/supabase.js"
 
 const AuthContext = createContext(null)
@@ -51,18 +52,40 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let cancelled = false
 
-    const {
-      data: { subscription },
-    } = onAuthStateChange(async (_event, nextSession) => {
+    const runApply = async (nextSession) => {
       if (cancelled) return
       setLoading(true)
-      await applyAuthSession(nextSession)
-      if (cancelled) return
-      setLoading(false)
+      try {
+        await applyAuthSession(nextSession)
+      } catch (err) {
+        console.error(err)
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    // Google OAuth (and email magic links) finish by writing tokens from the URL. That can
+    // land a hair after the first frame, so read the session explicitly as well as listening.
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!cancelled) void runApply(session)
     })
+
+    const {
+      data: { subscription },
+    } = onAuthStateChange((_event, nextSession) => {
+      void runApply(nextSession)
+    })
+
+    const oauthCatchUp = window.setTimeout(() => {
+      void supabase.auth.getSession().then(({ data: { session } }) => {
+        if (cancelled || !session?.user?.id) return
+        void runApply(session)
+      })
+    }, 400)
 
     return () => {
       cancelled = true
+      window.clearTimeout(oauthCatchUp)
       subscription.unsubscribe()
     }
   }, [applyAuthSession])
