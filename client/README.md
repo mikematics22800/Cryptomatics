@@ -2,9 +2,7 @@
 
 React single-page app for exploring cryptocurrency market data, optional paper-wallet style balances in Supabase, and transfers between registered users. The UI is built with Vite, Material UI, Tailwind CSS, and Chart.js.
 
-[![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-24292f?logo=github)](https://mikematics22800.github.io/Cryptomatics)
-
-[![](./public/screenshot.png)](https://mikematics22800.github.io/Cryptomatics)
+[Live demo](https://mikematics22800.github.io/Cryptomatics)
 
 ## Features
 
@@ -16,21 +14,23 @@ React single-page app for exploring cryptocurrency market data, optional paper-w
 
 ## Tech stack
 
-| Area | Libraries |
-|------|-----------|
-| Runtime | React 18, React Router 6 |
-| Build | Vite 5, `@vitejs/plugin-react` |
-| Styling | Tailwind CSS, PostCSS, Material UI 5 (+ Emotion), Ant Design (select UI) |
-| Data | Axios (Coin Ranking), `@supabase/supabase-js` |
-| Charts | Chart.js, react-chartjs-2 |
-| Animation | GSAP |
-| Numbers | millify |
-| Quality | ESLint (React + hooks + refresh), Vitest (unit tests in `src/**/*.test.js`) |
-| Deploy | `gh-pages` (static build to `dist/`) |
+
+| Area      | Libraries                                                                   |
+| --------- | --------------------------------------------------------------------------- |
+| Runtime   | React 18, React Router 6                                                    |
+| Build     | Vite 5, `@vitejs/plugin-react`                                              |
+| Styling   | Tailwind CSS, PostCSS, Material UI 5 (+ Emotion), Ant Design (select UI)    |
+| Data      | Axios (Coin Ranking), `@supabase/supabase-js`                               |
+| Charts    | Chart.js, react-chartjs-2                                                   |
+| Animation | GSAP                                                                        |
+| Numbers   | millify                                                                     |
+| Quality   | ESLint (React + hooks + refresh), Vitest (unit tests in `src/**/*.test.js`) |
+| Deploy    | `gh-pages` (static build to `dist/`)                                        |
+
 
 ## Repository layout
 
-This folder is the **frontend** of the monorepo. A sibling [`server`](../server/) package exposes small admin HTTP endpoints (e.g. crediting users) using the Supabase service role; it is optional for local UI development if you only use market data and skip wallet features.
+This folder is the **frontend** of the monorepo. A sibling `[server](../server/)` package exposes small admin HTTP endpoints (e.g. crediting users) using the Supabase service role; it is optional for local UI development if you only use market data and skip wallet features.
 
 ## Prerequisites
 
@@ -43,14 +43,16 @@ This folder is the **frontend** of the monorepo. A sibling [`server`](../server/
 
 Create a `.env` file in this directory (`client/.env`). Vite only exposes variables prefixed with `VITE_`.
 
-| Variable | Required | Purpose |
-|----------|----------|---------|
-| `VITE_COINRANKING_API_KEY` | Yes* | RapidAPI key sent as `X-RapidAPI-Key` to `coinranking1.p.rapidapi.com`. |
-| `VITE_SUPABASE_URL` | For auth / dashboard | Supabase project URL. |
-| `VITE_SUPABASE_API_KEY` | For auth / dashboard | Supabase **anon** public key (not the service role key). |
-| `VITE_AUTH_REDIRECT_URL` | Optional | Explicit OAuth / magic-link redirect base. If unset, the app uses `import.meta.env.BASE_URL` resolved against `window.location.origin` (see `src/utils/supabase.js`). |
 
-\*Market list and coin pages need the key; the app may still load without it but API calls will fail.
+| Variable                   | Required             | Purpose                                                                                                                                                               |
+| -------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_COINRANKING_API_KEY` | Yes*                 | RapidAPI key sent as `X-RapidAPI-Key` to `coinranking1.p.rapidapi.com`.                                                                                               |
+| `VITE_SUPABASE_URL`        | For auth / dashboard | Supabase project URL.                                                                                                                                                 |
+| `VITE_SUPABASE_API_KEY`    | For auth / dashboard | Supabase **anon** public key (not the service role key).                                                                                                              |
+| `VITE_AUTH_REDIRECT_URL`   | Optional             | Explicit OAuth / magic-link redirect base. If unset, the app uses `import.meta.env.BASE_URL` resolved against `window.location.origin` (see `src/utils/supabase.js`). |
+
+
+Market list and coin pages need the key; the app may still load without it but API calls will fail.
 
 Example (PowerShell):
 
@@ -81,32 +83,36 @@ npm run dev
 
 Vite serves the app with `base: '/Cryptomatics/'` and the router `basename` matches (see `vite.config.js` and `src/main.jsx`). Open:
 
-**http://localhost:5173/Cryptomatics/**
+**[http://localhost:5173/Cryptomatics/](http://localhost:5173/Cryptomatics/)**
 
 (If port 5173 is taken, Vite prints the actual URL in the terminal—keep the `/Cryptomatics/` path.)
 
 ### npm scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start Vite dev server with HMR. |
-| `npm run build` | Production build to `dist/`. |
-| `npm run preview` | Serve the production build locally. |
-| `npm run lint` | ESLint over `.js` / `.jsx` in the project. |
-| `npm test` | Run Vitest once (Node environment). |
-| `npm run test:watch` | Vitest in watch mode. |
-| `npm run deploy` | Build then publish `dist/` to GitHub Pages (`predeploy` runs `build`). |
+
+| Script               | Description                                                            |
+| -------------------- | ---------------------------------------------------------------------- |
+| `npm run dev`        | Start Vite dev server with HMR.                                        |
+| `npm run build`      | Production build to `dist/`.                                           |
+| `npm run preview`    | Serve the production build locally.                                    |
+| `npm run lint`       | ESLint over `.js` / `.jsx` in the project.                             |
+| `npm test`           | Run Vitest once (Node environment).                                    |
+| `npm run test:watch` | Vitest in watch mode.                                                  |
+| `npm run deploy`     | Build then publish `dist/` to GitHub Pages (`predeploy` runs `build`). |
+
 
 ## Routing and access control
 
 Defined in `src/main.jsx`:
 
-| Path | Access |
-|------|--------|
+
+| Path                  | Access                                                   |
+| --------------------- | -------------------------------------------------------- |
 | `/login`, `/register` | Public (`NoAuth` — redirects away if already signed in). |
-| `/` (index) | Dashboard — requires auth (`RequireAuth`). |
-| `/currencies` | Top coins list — requires auth. |
-| `/currencies/:id` | Coin detail — requires auth. |
+| `/` (index)           | Dashboard — requires auth (`RequireAuth`).               |
+| `/currencies`         | Top coins list — requires auth.                          |
+| `/currencies/:id`     | Coin detail — requires auth.                             |
+
 
 Navigation chrome lives in `layouts/RootLayout.jsx`; auth pages use `layouts/AuthLayout.jsx`.
 
@@ -144,4 +150,4 @@ npm test
 
 ## License
 
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[License: ISC](https://opensource.org/licenses/ISC)

@@ -1,3 +1,5 @@
+-- Deployed to Supabase SQL Editor as recurring cron job
+
 CREATE FUNCTION public.freeze_inactive_users()
 LANGUAGE plpgsql
 SECURITY DEFINER

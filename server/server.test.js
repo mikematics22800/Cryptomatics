@@ -1,9 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import request from 'supertest'
 
-const { mockCreateClient } = vi.hoisted(() => ({
-  mockCreateClient: vi.fn(),
-}))
+const { mockCreateClient } = vi.hoisted(() => {
+  process.env.SUPABASE_URL = 'https://test.supabase.co'
+  return { mockCreateClient: vi.fn() }
+})
 
 vi.mock('@supabase/supabase-js', () => ({
   createClient: (...args) => mockCreateClient(...args),
@@ -12,7 +13,6 @@ vi.mock('@supabase/supabase-js', () => ({
 import { app } from './server.js'
 
 const adminBody = {
-  supabase_url: 'https://test.supabase.co',
   service_role_key: 'service-role',
 }
 
@@ -60,10 +60,10 @@ describe('API', () => {
     expect(res.body).toEqual({ ok: true })
   })
 
-  it('POST /credit-user returns 400 without admin credentials', async () => {
+  it('POST /credit-user returns 400 without service_role_key', async () => {
     const res = await request(app).post('/credit-user').send({})
     expect(res.status).toBe(400)
-    expect(res.body.error).toMatch(/supabase_url and service_role_key/)
+    expect(res.body.error).toMatch(/service_role_key/)
     expect(mockCreateClient).not.toHaveBeenCalled()
   })
 

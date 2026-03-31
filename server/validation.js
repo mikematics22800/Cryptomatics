@@ -12,27 +12,34 @@ export function parsePositiveAmount(amount) {
   return n
 }
 
-export function parseAdminCredentials(body) {
-  const supabase_url = body?.supabase_url
+export function parseAdminCredentials(body, supabaseUrlFromEnv) {
+  const supabase_url =
+    typeof supabaseUrlFromEnv === 'string' ? supabaseUrlFromEnv.trim() : ''
+  if (!supabase_url) {
+    return {
+      error: {
+        status: 500,
+        json: {
+          error:
+            'Server misconfiguration: SUPABASE_URL is not set. Add it to the server environment or .env file.',
+        },
+      },
+    }
+  }
   const service_role_key = body?.service_role_key
-  if (
-    typeof supabase_url !== 'string' ||
-    !supabase_url.trim() ||
-    typeof service_role_key !== 'string' ||
-    !service_role_key
-  ) {
+  if (typeof service_role_key !== 'string' || !service_role_key) {
     return {
       error: {
         status: 400,
         json: {
           error:
-            'supabase_url and service_role_key are required in the JSON body (admin API credentials).',
+            'service_role_key is required in the JSON body (admin API credentials).',
         },
       },
     }
   }
   return {
-    supabase_url: supabase_url.trim(),
+    supabase_url,
     service_role_key,
   }
 }

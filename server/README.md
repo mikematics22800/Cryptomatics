@@ -10,6 +10,7 @@ This package is **not** required to run the client for read-only market data. Us
 |-------|------|
 | Node.js (ES modules) | Runtime; entry `server.js` |
 | Express 4 | HTTP server and JSON body parsing |
+| dotenv | Loads `server/.env` (`SUPABASE_URL`, etc.) |
 | `@supabase/supabase-js` | Service-role Supabase client (no session persistence) |
 | Vitest + Supertest | Unit and HTTP integration tests |
 
@@ -44,6 +45,16 @@ PORT=4000 npm start  # Unix
 
 `GET /health` should return `{"ok":true}`.
 
+### Environment
+
+The server loads **`server/.env`** via [dotenv](https://github.com/motdotla/dotenv) (see `import 'dotenv/config'` in `server.js`). Set at least:
+
+| Variable | Description |
+|----------|-------------|
+| `SUPABASE_URL` | Project URL, e.g. `https://xxxx.supabase.co` (trimmed when used). |
+
+`SUPABASE_URL` is **not** read from the JSON body; missing or blank values yield **500** on admin `POST` routes.
+
 ## npm scripts
 
 | Script | Description |
@@ -54,7 +65,7 @@ PORT=4000 npm start  # Unix
 
 ## Security model and operational warnings
 
-1. **Service role in the request body** — Every `POST` endpoint expects `supabase_url` and `service_role_key` in the JSON body. That lets one process talk to multiple projects without redeploying, but it also means anyone who can call the server can exfiltrate keys if traffic is intercepted or logged. **Do not expose this service on the public internet** without TLS, authentication, IP allowlists, or replacing this pattern with keys read only from the server environment.
+1. **Service role in the request body** — Every `POST` endpoint expects `service_role_key` in the JSON body; the project URL comes from **`SUPABASE_URL`** on the server (e.g. `server/.env`). Anyone who can call the server can exfiltrate the service role if traffic is intercepted or logged. **Do not expose this service on the public internet** without TLS, authentication, IP allowlists, or moving the service role to env-only and adding proper auth on your admin routes.
 2. **Never commit keys** — Use secrets managers or local env for automation scripts; do not paste the service role into client-side code (the React app uses the **anon** key only).
 3. **Ban duration** — `POST /ban-user` uses Supabase Auth `ban_duration: '876000h'` (effectively long-term). Adjust `server.js` if you need a different policy.
 
@@ -66,10 +77,9 @@ All admin `POST` routes accept **`Content-Type: application/json`**.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `supabase_url` | string | Project URL, e.g. `https://xxxx.supabase.co` (trimmed). |
 | `service_role_key` | string | Service role JWT (required; not trimmed in code—avoid accidental whitespace). |
 
-Validation lives in [`validation.js`](./validation.js) (`parseAdminCredentials`). Missing or blank `supabase_url` / `service_role_key` yields **400** with a message that both are required.
+Project URL: **`SUPABASE_URL`** in the server environment (see [Environment](#environment) above). Validation lives in [`validation.js`](./validation.js) (`parseAdminCredentials`). Missing `service_role_key` yields **400**. Missing or blank `SUPABASE_URL` yields **500**.
 
 ---
 
@@ -87,7 +97,6 @@ Adds a positive amount to a user’s wallet column and appends a ledger **`trans
 
 | Body field | Type | Description |
 |------------|------|-------------|
-| `supabase_url` | string | (admin) |
 | `service_role_key` | string | (admin) |
 | `user_id` | string | Wallet primary key (same as `user.id` in this app). |
 | `amount` | number or numeric string | Must be finite and **&gt; 0**. |
@@ -121,7 +130,7 @@ Sets `user.frozen` to **`true`**. The client treats frozen users as unable to se
 
 | Body field | Type |
 |------------|------|
-| `supabase_url`, `service_role_key` | (admin) |
+| `service_role_key` | (admin) |
 | `user_id` | string |
 
 **200** — `{ "ok": true, "user_id": "<uuid>", "frozen": true }`
@@ -146,7 +155,7 @@ Calls Supabase Auth **`auth.admin.updateUserById`** with a long ban duration so 
 
 | Body field | Type |
 |------------|------|
-| `supabase_url`, `service_role_key` | (admin) |
+| `service_role_key` | (admin) |
 | `user_id` | string | **Auth user id** (same as `auth.users.id`). |
 
 **200** — `{ "ok": true, "user_id": "<uuid>", "banned_until": "<iso or null>" }`
@@ -164,10 +173,10 @@ Replace placeholders; **do not commit real keys**.
 ```bash
 curl -s -X POST http://localhost:3000/credit-user ^
   -H "Content-Type: application/json" ^
-  -d "{\"supabase_url\":\"https://YOUR.supabase.co\",\"service_role_key\":\"YOUR_SERVICE_ROLE\",\"user_id\":\"USER_UUID\",\"amount\":10,\"currency\":\"USD\"}"
+  -d "{\"service_role_key\":\"YOUR_SERVICE_ROLE\",\"user_id\":\"USER_UUID\",\"amount\":10,\"currency\":\"USD\"}"
 ```
 
-(Use `\` instead of `^` for line continuation on Unix shells.)
+Ensure `SUPABASE_URL` is set in `server/.env` (or the process environment) before calling the API. (Use `\` instead of `^` for line continuation on Unix shells.)
 
 ## Programmatic use and tests
 

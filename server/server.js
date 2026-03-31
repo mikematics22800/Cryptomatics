@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import { fileURLToPath } from 'node:url'
 import { createClient } from '@supabase/supabase-js'
@@ -18,7 +19,7 @@ const supabaseClientOptions = {
 }
 
 function getServiceClient(req) {
-  const parsed = parseAdminCredentials(req.body ?? {})
+  const parsed = parseAdminCredentials(req.body ?? {}, process.env.SUPABASE_URL)
   if (parsed.error) return parsed
   return {
     supabase: createClient(parsed.supabase_url, parsed.service_role_key, supabaseClientOptions),
@@ -27,7 +28,7 @@ function getServiceClient(req) {
 
 /**
  * POST /credit-user
- * Body: supabase_url, service_role_key, user_id, amount, currency (BTC|USD|EUR)
+ * Body: service_role_key, user_id, amount, currency (BTC|USD|EUR). SUPABASE_URL from server env.
  */
 async function creditUser(req, res) {
   const parsed = getServiceClient(req)
@@ -95,7 +96,7 @@ async function creditUser(req, res) {
 
 /**
  * POST /freeze-user — user can log in but cannot send/receive (app checks user.frozen).
- * Body: supabase_url, service_role_key, user_id
+ * Body: service_role_key, user_id. SUPABASE_URL from server env.
  */
 async function freezeUser(req, res) {
   const parsed = getServiceClient(req)
@@ -126,7 +127,7 @@ async function freezeUser(req, res) {
 
 /**
  * POST /unfreeze-user
- * Body: supabase_url, service_role_key, user_id
+ * Body: service_role_key, user_id. SUPABASE_URL from server env.
  */
 async function unfreezeUser(req, res) {
   const parsed = getServiceClient(req)
@@ -157,7 +158,7 @@ async function unfreezeUser(req, res) {
 
 /**
  * POST /ban-user — Supabase Auth ban (cannot sign in or refresh; user_banned).
- * Body: supabase_url, service_role_key, user_id (auth user id)
+ * Body: service_role_key, user_id (auth user id). SUPABASE_URL from server env.
  */
 async function banUser(req, res) {
   const parsed = getServiceClient(req)
