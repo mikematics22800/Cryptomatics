@@ -2,8 +2,6 @@
 
 React single-page app for exploring cryptocurrency market data, optional paper-wallet style balances in Supabase, and transfers between registered users. The UI is built with Vite, Material UI, Tailwind CSS, and Chart.js.
 
-[Live demo](https://mikematics22800.github.io/Cryptomatics)
-
 ## Features
 
 - **Authentication** — Email/password and Google OAuth via [Supabase Auth](https://supabase.com/docs/guides/auth). Login and register routes are public; the rest of the app requires a session.
