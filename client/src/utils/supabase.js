@@ -13,6 +13,10 @@ export const supabase = createClient(url, key, {
 
 export function getAuthRedirectUrl() {
   if (typeof window === "undefined") return undefined
+  const explicit = import.meta.env.VITE_AUTH_REDIRECT_URL?.trim()
+  if (explicit) {
+    return explicit.endsWith("/") ? explicit : `${explicit}/`
+  }
   return new URL(import.meta.env.BASE_URL, window.location.origin).href
 }
 
