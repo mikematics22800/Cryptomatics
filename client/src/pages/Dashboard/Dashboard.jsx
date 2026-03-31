@@ -20,10 +20,16 @@ import {
   Typography,
 } from "@mui/material"
 import { useAuth } from "../../auth/AuthProvider.jsx"
-import { fetchAccountProfile, supabase } from "../../utils/supabase.js"
+import {
+  buildValidatedConversionTransactionRows,
+  fetchAccountProfile,
+  INTERNAL_CONVERSION_ID,
+  roundForCurrency,
+  supabase,
+  validateUserTransfer,
+} from "../../utils/supabase.js"
 import { getCoinDetails } from "../../utils/coinranking.js"
 
-const INTERNAL_CONVERSION_ID = "00000000-0000-0000-0000-000000000001"
 const COINRANKING_BTC_UUID = "Qwsogvtv82FCd"
 
 const FIAT_CODES = ["USD", "EUR"]
@@ -119,16 +125,6 @@ function formatUserDisplay(u) {
 function counterpartyLabel(uuid) {
   if (uuid === INTERNAL_CONVERSION_ID) return "Internal conversion"
   return shortPartyId(uuid)
-}
-
-function roundForCurrency(value, currency) {
-  const upper = String(currency).toUpperCase()
-  const n = Number(value)
-  if (!Number.isFinite(n)) return 0
-  if (upper === "BTC") {
-    return Math.round(n * 1e8) / 1e8
-  }
-  return Math.round(n * 1e2) / 1e2
 }
 
 async function fetchBtcUsd() {
@@ -429,8 +425,22 @@ export default function Dashboard() {
       return
     }
 
-    const amt = roundForCurrency(parsedSendAmount, sendCurrency)
-    const col = sendCurrency
+    const transferCheck = validateUserTransfer({
+      senderId: userId,
+      receiverId: lookupUser.id,
+      rawAmount: parsedSendAmount,
+      currency: sendCurrency,
+    })
+    if (!transferCheck.ok) {
+      setSendMessage({
+        severity: "error",
+        text: transferCheck.error,
+      })
+      return
+    }
+
+    const amt = transferCheck.amount
+    const col = transferCheck.currency
 
     const { data: senderW, error: swErr } = await supabase
       .from("wallet")
@@ -640,13 +650,22 @@ export default function Dashboard() {
       toCurrency
     )
 
-    if (creditRaw <= 0) {
+    const conversion = buildValidatedConversionTransactionRows(
+      userId,
+      fromCurrency,
+      toCurrency,
+      debitRaw,
+      creditRaw
+    )
+    if (!conversion.ok) {
       setConvertMessage({
         severity: "error",
-        text: "Converted amount is too small after rounding.",
+        text: conversion.error,
       })
       return
     }
+
+    const { debit, credit, from: convFrom, to: convTo } = conversion
 
     const prevSnapshot = {
       BTC: Number(wallet.BTC ?? 0),
@@ -655,19 +674,16 @@ export default function Dashboard() {
     }
 
     const next = { ...prevSnapshot }
-    next[balanceKey] = roundForCurrency(
-      prevSnapshot[balanceKey] - debitRaw,
-      fromCurrency
+    next[convFrom] = roundForCurrency(
+      prevSnapshot[convFrom] - debit,
+      convFrom
     )
-    next[toCurrency] = roundForCurrency(
-      prevSnapshot[toCurrency] + creditRaw,
-      toCurrency
-    )
+    next[convTo] = roundForCurrency(prevSnapshot[convTo] + credit, convTo)
 
-    if (next[balanceKey] < -1e-9) {
+    if (next[convFrom] < -1e-9) {
       setConvertMessage({
         severity: "error",
-        text: `Insufficient ${fromCurrency} balance.`,
+        text: `Insufficient ${convFrom} balance.`,
       })
       return
     }
@@ -689,22 +705,9 @@ export default function Dashboard() {
       return
     }
 
-    const { error: insErr } = await supabase.from("transaction").insert([
-      {
-        sender: userId,
-        receiver: INTERNAL_CONVERSION_ID,
-        amount: debitRaw,
-        currency: fromCurrency,
-        type: "Conversion",
-      },
-      {
-        sender: INTERNAL_CONVERSION_ID,
-        receiver: userId,
-        amount: creditRaw,
-        currency: toCurrency,
-        type: "Conversion",
-      },
-    ])
+    const { error: insErr } = await supabase
+      .from("transaction")
+      .insert(conversion.rows)
 
     if (insErr) {
       await supabase
@@ -729,7 +732,7 @@ export default function Dashboard() {
     setConvertSubmitting(false)
     setConvertMessage({
       severity: "success",
-      text: `Converted ${formatBalance(fromCurrency, debitRaw)} ${fromCurrency} → ${formatBalance(toCurrency, creditRaw)} ${toCurrency}.`,
+      text: `Converted ${formatBalance(convFrom, debit)} ${convFrom} → ${formatBalance(convTo, credit)} ${convTo}.`,
     })
   }
 

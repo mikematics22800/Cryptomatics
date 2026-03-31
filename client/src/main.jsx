@@ -59,8 +59,8 @@ const router = createBrowserRouter(
       ],
     },
   ], 
-  { 
-    basename: "/Cryptomatics/" 
+  {
+    basename: "/Cryptomatics",
   }
 );
 
