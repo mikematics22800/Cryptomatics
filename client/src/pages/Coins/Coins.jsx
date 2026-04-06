@@ -11,7 +11,7 @@ import { Search } from "@mui/icons-material"
 import { getCoins } from "../../utils/coinranking.js"
 import { CircularProgress, ToggleButton, ToggleButtonGroup } from "@mui/material"
 import Coins from "./components/Coins.jsx"
-import { useFiatCurrency } from "../../hooks/useFiatCurrency.js"
+import { useFiatCurrency } from "../Dashboard/Dashboard.jsx"
 
 export const CoinsContext = createContext()
 

@@ -41,7 +41,7 @@ The UI is built with Vite, Material UI, Tailwind CSS, and Chart.js.
 
 - **Node.js** — Current or active LTS recommended.
 - **npm** — Used for scripts and lockfile (`package-lock.json`).
-- **Coin Ranking API key** — Subscribe on [RapidAPI — Coinranking](https://rapidapi.com/Coinranking/api/coinranking1) and use the key as `VITE_COINRANKING_API_KEY`.
+- **Coin Ranking API key** — Subscribe on [RapidAPI — Coinranking](https://rapidapi.com/Coinranking/api/coinranking1) and use the key as `VITE_RAPIDAPI_KEY`.
 - **Supabase project** — Required for sign-in, profiles, wallets, and transactions. Create a project at [supabase.com](https://supabase.com) and enable the auth providers you need (email, Google, etc.).
 
 ### Environment variables (client)
@@ -50,7 +50,7 @@ Create a `.env` file in `client/`. Vite only exposes variables prefixed with `VI
 
 | Variable                   | Required             | Purpose                                                                                                                                                               |
 | -------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `VITE_COINRANKING_API_KEY` | Yes*                 | RapidAPI key sent as `X-RapidAPI-Key` to `coinranking1.p.rapidapi.com`.                                                                                               |
+| `VITE_RAPIDAPI_KEY` | Yes*                 | RapidAPI key sent as `X-RapidAPI-Key` to `coinranking1.p.rapidapi.com`.                                                                                               |
 | `VITE_SUPABASE_URL`        | For auth / dashboard | Supabase project URL.                                                                                                                                                 |
 | `VITE_SUPABASE_API_KEY`    | For auth / dashboard | Supabase **anon** public key (not the service role key).                                                                                                              |
 | `VITE_AUTH_REDIRECT_URL`   | Optional             | Explicit OAuth / magic-link redirect base. If unset, the app uses `import.meta.env.BASE_URL` resolved against `window.location.origin` (see `client/src/utils/supabase.js`). |
@@ -62,7 +62,7 @@ Example (PowerShell):
 ```powershell
 cd client
 @"
-VITE_COINRANKING_API_KEY=your_rapidapi_key
+VITE_RAPIDAPI_KEY=your_rapidapi_key
 VITE_SUPABASE_URL=https://xxxx.supabase.co
 VITE_SUPABASE_API_KEY=your_anon_key
 "@ | Out-File -Encoding utf8 .env

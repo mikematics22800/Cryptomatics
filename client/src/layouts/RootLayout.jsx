@@ -2,6 +2,7 @@ import { Outlet, NavLink, Link } from "react-router-dom"
 import { CircularProgress } from "@mui/material"
 import Background from "../components/Background"
 import { useAuth } from "../auth/AuthProvider.jsx"
+import { FiatCurrencyProvider } from "../pages/Dashboard/Dashboard.jsx"
 
 function NavAuth() {
   const { loading, signOut } = useAuth()
@@ -69,7 +70,9 @@ export default function Root() {
       </nav>
       <Background />
       <main className="w-full pt-24">
-        <Outlet />
+        <FiatCurrencyProvider>
+          <Outlet />
+        </FiatCurrencyProvider>
       </main>
     </div>
   )

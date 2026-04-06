@@ -171,11 +171,6 @@ export async function provisionNewUserAccounts(userId, userEmailHint, _authSessi
   const { error: rpcErr } = await supabase.rpc("ensure_user_profile")
   if (!rpcErr) return { error: null }
 
-  console.warn(
-    "[Cryptomatics] ensure_user_profile RPC failed. Run `client/provision_on_auth.sql` in the Supabase SQL Editor (server-side provisioning). Falling back to client inserts; RLS may block these.",
-    rpcErr
-  )
-
   const email = normEmail(u.email ?? userEmailHint)
   if (!email) {
     return { error: new Error("Cannot provision: missing email") }

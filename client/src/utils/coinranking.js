@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const headers = {
-  "X-RapidAPI-Key": import.meta.env.VITE_COINRANKING_API_KEY,
+  "X-RapidAPI-Key": import.meta.env.VITE_RAPIDAPI_KEY,
   "X-RapidAPI-Host": "coinranking1.p.rapidapi.com",
 }
 
@@ -12,6 +12,7 @@ export async function getCoins() {
       url: "https://coinranking1.p.rapidapi.com/coins?limit=100",
       headers,
     })
+    console.log(data);
     return data
   } catch (error) {
     console.error(error)
@@ -43,3 +44,4 @@ export async function getCoinHistory({ coinId, timePeriod }) {
     console.error(error)
   }
 }
+

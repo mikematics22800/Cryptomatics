@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import {
   Alert,
   Box,
@@ -29,8 +36,70 @@ import {
   validateUserTransfer,
 } from "../../utils/supabase.js"
 import { getCoinDetails } from "../../utils/coinranking.js"
+import { fetchUsdPerEur } from "../../utils/conversion.js"
 
 const COINRANKING_BTC_UUID = "Qwsogvtv82FCd"
+
+const FIAT_DISPLAY_STORAGE_KEY = "cryptomatics-display-currency"
+
+function readStoredDisplayCurrency() {
+  try {
+    const v = localStorage.getItem(FIAT_DISPLAY_STORAGE_KEY)
+    if (v === "EUR" || v === "USD") return v
+  } catch {
+    /* ignore */
+  }
+  return "USD"
+}
+
+export const FiatCurrencyContext = createContext(null)
+
+export function FiatCurrencyProvider({ children }) {
+  const [currency, setCurrencyState] = useState(readStoredDisplayCurrency)
+  const [usdPerEur, setUsdPerEur] = useState(null)
+
+  const setCurrency = useCallback((next) => {
+    setCurrencyState(next)
+    try {
+      localStorage.setItem(FIAT_DISPLAY_STORAGE_KEY, next)
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  useEffect(() => {
+    if (currency !== "EUR") {
+      setUsdPerEur(null)
+      return
+    }
+    let cancelled = false
+    fetchUsdPerEur().then((r) => {
+      if (!cancelled && r != null) setUsdPerEur(r)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [currency])
+
+  const value = useMemo(
+    () => ({ currency, setCurrency, usdPerEur }),
+    [currency, setCurrency, usdPerEur]
+  )
+
+  return (
+    <FiatCurrencyContext.Provider value={value}>
+      {children}
+    </FiatCurrencyContext.Provider>
+  )
+}
+
+export function useFiatCurrency() {
+  const ctx = useContext(FiatCurrencyContext)
+  if (ctx == null) {
+    throw new Error("useFiatCurrency must be used within FiatCurrencyProvider")
+  }
+  return ctx
+}
 
 const FIAT_CODES = ["USD", "EUR"]
 const ALL_CURRENCIES = ["BTC", "USD", "EUR"]
@@ -145,17 +214,6 @@ async function fetchBtcUsd() {
   } catch {
     /* ignore */
   }
-  return null
-}
-
-async function fetchEurUsd() {
-  const res = await fetch(
-    "https://api.frankfurter.app/latest?from=EUR&to=USD"
-  )
-  if (!res.ok) return null
-  const j = await res.json()
-  const u = j?.rates?.USD
-  if (Number.isFinite(Number(u)) && Number(u) > 0) return Number(u)
   return null
 }
 
@@ -281,7 +339,10 @@ export default function Dashboard() {
     async function loadRates() {
       setRatesLoading(true)
       setRatesError(null)
-      const [btcUsd, eurUsd] = await Promise.all([fetchBtcUsd(), fetchEurUsd()])
+      const [btcUsd, eurUsd] = await Promise.all([
+        fetchBtcUsd(),
+        fetchUsdPerEur(),
+      ])
       if (cancelled) return
       if (btcUsd == null || eurUsd == null) {
         setRates(null)

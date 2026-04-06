@@ -4,7 +4,7 @@ import { AccessTime, LocalAtm, ShowChart } from "@mui/icons-material"
 import millify from "millify"
 import { Card } from "antd"
 import { Link } from "react-router-dom"
-import { formatFiatAmount } from "../../../hooks/useFiatCurrency.js"
+import { formatFiatAmount } from "../../../utils/conversion.js"
 
 const Coins = () => {
   const { coins, currency, usdPerEur } = useContext(CoinsContext)
@@ -23,17 +23,17 @@ const Coins = () => {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <LocalAtm className="mr-1"/>
-              <h1 className="font-bold">Price</h1>
-            </div>
-            {formatFiatAmount(coin.price, currency, usdPerEur)}
-          </div>
-          <div className="flex items-center justify-between my-2">
-            <div className="flex items-center">
               <ShowChart className="mr-1"/>
               <h1 className="font-bold">Market Cap</h1>
             </div>
             {formatFiatAmount(coin.marketCap, currency, usdPerEur)}
+          </div>
+          <div className="flex items-center justify-between my-2">
+            <div className="flex items-center">
+              <LocalAtm className="mr-1"/>
+              <h1 className="font-bold">Price</h1>
+            </div>
+            {formatFiatAmount(coin.price, currency, usdPerEur)}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center">

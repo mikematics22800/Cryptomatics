@@ -6,7 +6,8 @@ import {
   useRef,
   useState,
 } from "react"
-import { useFiatCurrency, formatFiatAmount } from "../../hooks/useFiatCurrency.js"
+import { useFiatCurrency } from "../Dashboard/Dashboard.jsx"
+import { formatFiatAmount } from "../../utils/conversion.js"
 import { useParams } from "react-router-dom"
 import gsap from "gsap"
 import millify from "millify"
@@ -157,19 +158,19 @@ const Coin = () => {
             : "—",
       },
       {
-        title: `Price (${currency})`,
+        title: `Price`,
         value: formatFiatAmount(coinDetails?.price, currency, usdPerEur),
       },
       {
-        title: `24h Volume (${currency})`,
+        title: `24h Volume`,
         value: formatFiatAmount(coinDetails?.["24hVolume"], currency, usdPerEur),
       },
       {
-        title: `Market Cap (${currency})`,
+        title: `Market Cap`,
         value: formatFiatAmount(coinDetails?.marketCap, currency, usdPerEur),
       },
       {
-        title: `Highest Price (${currency})`,
+        title: `Highest Price`,
         value: formatFiatAmount(
           coinDetails?.allTimeHigh?.price,
           currency,
