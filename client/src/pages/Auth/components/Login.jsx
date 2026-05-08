@@ -47,6 +47,15 @@ const Login = ({ onSwitchToRegister }) => {
 
   const authBusy = loading || oauthLoading
 
+  const handleContinueAsGuest = () => {
+    try {
+      localStorage.setItem("cryptomatics-guest-mode", "1")
+    } catch {
+      /* ignore */
+    }
+    navigate("/", { replace: true })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
@@ -54,6 +63,11 @@ const Login = ({ onSwitchToRegister }) => {
     if (policyError) {
       setError(policyError)
       return
+    }
+    try {
+      localStorage.removeItem("cryptomatics-guest-mode")
+    } catch {
+      /* ignore */
     }
     setLoading(true)
     const { data, error: signInError } = await loginWithEmail(
@@ -85,6 +99,11 @@ const Login = ({ onSwitchToRegister }) => {
 
   const handleGoogle = async () => {
     setError("")
+    try {
+      localStorage.removeItem("cryptomatics-guest-mode")
+    } catch {
+      /* ignore */
+    }
     setOauthLoading(true)
     try {
       const { error: oauthError } = await signInWithGoogle()
@@ -268,6 +287,25 @@ const Login = ({ onSwitchToRegister }) => {
           >
             Register
           </Link>
+          &nbsp;or&nbsp;
+          <Link
+            component="button"
+            type="button"
+            underline="hover"
+            onClick={handleContinueAsGuest}
+            sx={{
+              verticalAlign: "baseline",
+              color: "rgba(251,191,36,0.95)",
+              cursor: "pointer",
+              border: "none",
+              background: "none",
+              font: "inherit",
+              padding: 0,
+            }}
+          >
+            continue as a guest
+          </Link>
+          .
         </Typography>
       </Paper>
   )

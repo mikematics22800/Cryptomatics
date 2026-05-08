@@ -1,11 +1,20 @@
-import { Outlet, NavLink, Link } from "react-router-dom"
+import { Outlet, NavLink, Link, useLocation, useNavigate } from "react-router-dom"
 import { CircularProgress } from "@mui/material"
 import Background from "../components/Background"
 import { useAuth } from "../auth/AuthProvider.jsx"
 import { FiatCurrencyProvider } from "../pages/Dashboard/Dashboard.jsx"
 
 function NavAuth() {
-  const { loading, signOut } = useAuth()
+  const { loading, session, signOut } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+  let guestMode = false
+
+  try {
+    guestMode = localStorage.getItem("cryptomatics-guest-mode") === "1"
+  } catch {
+    guestMode = false
+  }
 
   if (loading) {
     return (
@@ -14,6 +23,25 @@ function NavAuth() {
         sx={{ color: "rgba(251,191,36,0.9)" }}
         aria-label="Loading account"
       />
+    )
+  }
+
+  if (!session && guestMode) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          try {
+            localStorage.removeItem("cryptomatics-guest-mode")
+          } catch {
+            /* ignore */
+          }
+          navigate("/login", { state: { from: location } })
+        }}
+        className="rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-300 transition-colors hover:bg-white/10 hover:text-amber-300"
+      >
+        Sign in
+      </button>
     )
   }
 

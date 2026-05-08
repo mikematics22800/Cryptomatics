@@ -5,6 +5,13 @@ import { useAuth } from "./AuthProvider.jsx"
 export function RequireAuth({ children }) {
   const { session, loading } = useAuth()
   const location = useLocation()
+  let guestMode = false
+
+  try {
+    guestMode = localStorage.getItem("cryptomatics-guest-mode") === "1"
+  } catch {
+    guestMode = false
+  }
 
   if (loading) {
     return (
@@ -14,7 +21,7 @@ export function RequireAuth({ children }) {
     )
   }
 
-  if (!session) {
+  if (!session && !guestMode) {
     return (
       <Navigate to="/login" replace state={{ from: location }} />
     )

@@ -243,6 +243,7 @@ function convertWithRates(amount, from, to, rates) {
 export default function Dashboard() {
   const { user, profile } = useAuth()
   const userId = user?.id
+  const isAuthenticated = Boolean(userId)
   const accountFrozen = Boolean(profile?.frozen)
 
   const [wallet, setWallet] = useState(null)
@@ -416,7 +417,11 @@ export default function Dashboard() {
 
   async function handleLookup(e) {
     e.preventDefault()
-    if (!userId) return
+    if (!isAuthenticated || !userId) {
+      setLookupError("Please sign in to use recipient lookup.")
+      setLookupUser(null)
+      return
+    }
     setLookupLoading(true)
     setLookupError(null)
     setLookupUser(null)
@@ -437,6 +442,14 @@ export default function Dashboard() {
   async function handleSend(e) {
     e.preventDefault()
     setSendMessage(null)
+
+    if (!isAuthenticated || !userId) {
+      setSendMessage({
+        severity: "error",
+        text: "Please sign in to send funds.",
+      })
+      return
+    }
 
     if (accountFrozen) {
       setSendMessage({
@@ -652,6 +665,14 @@ export default function Dashboard() {
     e.preventDefault()
     setConvertMessage(null)
 
+    if (!isAuthenticated || !userId) {
+      setConvertMessage({
+        severity: "error",
+        text: "Please sign in to convert currencies.",
+      })
+      return
+    }
+
     if (accountFrozen) {
       setConvertMessage({
         severity: "error",
@@ -832,6 +853,12 @@ export default function Dashboard() {
         </Alert>
       ) : null}
 
+      {!isAuthenticated ? (
+        <Alert severity="info" sx={{ width: "100%" }}>
+          You are browsing as a guest. Sign in to convert currencies and send funds.
+        </Alert>
+      ) : null}
+
       <Box
         sx={{
           display: "grid",
@@ -912,6 +939,7 @@ export default function Dashboard() {
               labelId="convert-from-label"
               label="From"
               value={fromCurrency}
+              disabled={!isAuthenticated}
               onChange={(ev) => {
                 const v = ev.target.value
                 setFromCurrency(v)
@@ -936,6 +964,7 @@ export default function Dashboard() {
               labelId="convert-to-label"
               label="To"
               value={toCurrency}
+              disabled={!isAuthenticated}
               onChange={(ev) => {
                 const v = ev.target.value
                 setToCurrency(v)
@@ -961,6 +990,7 @@ export default function Dashboard() {
             value={amountInput}
             onChange={(ev) => setAmountInput(ev.target.value)}
             inputProps={{ inputMode: "decimal" }}
+            disabled={!isAuthenticated}
           />
 
           <Button
@@ -968,6 +998,7 @@ export default function Dashboard() {
             variant="contained"
             disabled={
               accountFrozen ||
+              !isAuthenticated ||
               convertSubmitting ||
               !rates ||
               ratesLoading ||
@@ -1035,11 +1066,12 @@ export default function Dashboard() {
             onChange={(ev) => setLookupInput(ev.target.value)}
             autoComplete="off"
             sx={{ flex: "1 1 220px", minWidth: 200 }}
+            disabled={!isAuthenticated}
           />
           <Button
             type="submit"
             variant="contained"
-            disabled={lookupLoading}
+            disabled={!isAuthenticated || lookupLoading}
             sx={{ py: 1.25, fontWeight: 700 }}
           >
             {lookupLoading ? "Searching…" : "Find user"}
@@ -1093,6 +1125,7 @@ export default function Dashboard() {
               labelId="send-currency-label"
               label="Currency"
               value={sendCurrency}
+              disabled={!isAuthenticated}
               onChange={(ev) => setSendCurrency(ev.target.value)}
             >
               {ALL_CURRENCIES.map((c) => (
@@ -1110,12 +1143,13 @@ export default function Dashboard() {
             value={sendAmountInput}
             onChange={(ev) => setSendAmountInput(ev.target.value)}
             inputProps={{ inputMode: "decimal" }}
+            disabled={!isAuthenticated}
           />
 
           <Button
             type="submit"
             variant="contained"
-            disabled={accountFrozen || sendSubmitting || !lookupUser}
+            disabled={!isAuthenticated || accountFrozen || sendSubmitting || !lookupUser}
             sx={{ py: 1.25, fontWeight: 700 }}
           >
             {sendSubmitting ? "Sending…" : "Send"}
